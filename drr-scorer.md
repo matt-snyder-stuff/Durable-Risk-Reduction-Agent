@@ -112,6 +112,26 @@ In a high-churn environment, rules and detections drift faster. Reflect that in 
 | 4 | A major new platform subscription |
 | 5 | One of the largest platforms in the stack |
 
+### Scoring a decision not to act
+
+Deferring a patch or update, accepting a risk, or leaving a known exposure in place is a decision. Score it like any other task, so it shows up on the same ranking instead of staying invisible.
+
+| Input | Usual score | Why |
+|---|---|---|
+| Reduction | 1 | Deferring removes no reach. |
+| Durability | 1 | Nothing holds. The exposure stays open. |
+| Effort | 1 | There is almost nothing to build. |
+| Debt | 2 to 3 | Deferral is not free: monitoring, compensating controls, and exception reviews. |
+| Cost | 1 | Unless a compensating control needs new licensing or infrastructure. |
+
+With `H = 3`, a typical deferral scores (1 × 1) ÷ (1 + 3 × (3 + 1)) = **0.08, Sandcastle**.
+
+- **Every deferral needs an owner and a review date.** If either is missing, flag `insufficient-detail`.
+- **If a compensating control is the reason for the deferral** (for example, segmentation that makes the system unreachable), score that control as its own task. It is the work actually removing reach.
+- **Always add a `rescore-trigger`:** a public exploit or active exploitation of the deferred issue, or the review date passing.
+
+Deferring can be the right call. The point of scoring it is that it becomes a visible decision with an owner, not a default nobody chose.
+
 ---
 
 ## 3. Org profile
@@ -155,7 +175,7 @@ These are illustrative reference points, not measured results. They anchor the s
 
 1. **Load the org profile** (Section 3) and **pass the calibration check** (Section 4).
 2. **Gather the plan, read-only.** Pull tasks from wherever the plan lives (for example, an issue tracker and a planning wiki). Use read access only. Never create, edit, comment on, or close tickets.
-3. **For each task, write one plain sentence** describing what the task changes in the environment. If you cannot write that sentence from the source material, flag `insufficient-detail`.
+3. **For each task, write one plain sentence** describing what the task changes in the environment. If you cannot write that sentence from the source material, flag `insufficient-detail`. Include decisions not to act, such as deferred patches and accepted risks. If the plan keeps them separately, for example in a risk register or exception list, pull those in too and score them with the guidance in Section 2.
 4. **Score each task from four perspectives**, independently, each with its own short rationale:
 
    | Perspective | Leads on | Asks |
@@ -183,6 +203,7 @@ These are illustrative reference points, not measured results. They anchor the s
 | `program-work` | The task creates no security control (for example, content, research, or support for another team) | Score it honestly, but track it as program work, not as a security control. A low score here is not a judgment on its value. |
 | `insufficient-detail` | The source does not support a confident score | Ask for detail before relying on the score. |
 | `disagreement` | Any input's spread across perspectives is 2 or more | Prioritize this task for human review. |
+| `deferral` | The task is a decision not to act: a deferred patch or update, an accepted risk, or a known exposure left in place | Keep it visible on the ranking with an owner and a review date. Rescore when an exploit is published or the review date passes. |
 | `rescore-trigger` | A known change would move the score (for example, security group rules becoming default-deny moves Durability from 4 to 5) | Name the trigger and the expected input change. |
 
 **Planning flags** (only when the matching rule is on in the org profile):
@@ -225,7 +246,7 @@ Produce one markdown report.
 ## Summary
 - Tasks scored: [n]
 - By band: Seawall [n] · Durable [n] · Weak [n] · Sandcastle [n]
-- Flagged: compliance-required [n] · program-work [n] · disagreement [n] · insufficient-detail [n]
+- Flagged: compliance-required [n] · program-work [n] · deferral [n] · disagreement [n] · insufficient-detail [n]
 - Review first: [task IDs with disagreement, plus the top of the ranking]
 
 ## [Band name]
@@ -250,7 +271,7 @@ DRR = (R × D) ÷ (E + H × (Db + C)) · Seawall above 1.50 · Durable 0.50 to 1
 
 Re-score when the plan changes, not just once a quarter. In particular, re-score when:
 
-- a `rescore-trigger` fires (for example, an architecture change lands);
+- a `rescore-trigger` fires (for example, an architecture change lands, or an exploit is published for something you deferred);
 - an interruption lands (an emergency patch, an incident, a new directive) and you need to re-rank what is left;
 - a hardness assumption behind an assumption-based control weakens;
 - the org profile changes, including `H`.
@@ -261,5 +282,5 @@ Re-score when the plan changes, not just once a quarter. In particular, re-score
 
 | Version | Formula | Change |
 |---|---|---|
-| v2 (DRR) | `(R × D) ÷ (E + H × (Db + C))` | Adds Reduction. Makes H a setting. Adds bands, a calibration check, per-perspective spread, and planning flags. |
+| v2 (DRR) | `(R × D) ÷ (E + H × (Db + C))` | Adds Reduction. Makes H a setting. Adds bands, a calibration check, per-perspective spread, planning flags, and scoring for decisions not to act. |
 | v1 (HLI) | `D ÷ (E + 3 × (Db + C))` | Durability against cost alone. Retired: it ranked tiny permanent fixes above large structural ones. |
