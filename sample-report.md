@@ -3,7 +3,7 @@
 *Scored: example · DRR v2 · H = 3 · four review perspectives per task*
 *status: draft. Reduction and Durability are not final until security architecture signs off.*
 
-> This is an illustrative sample using the five reference projects from the calibration set. The spreads and flags are examples of the format, not measured results.
+> This is an illustrative sample using the five reference projects from the calibration set, plus one decision not to act. The spreads and flags are examples of the format, not measured results.
 
 ## Calibration
 Pass. All five reference projects landed in their expected bands.
@@ -12,9 +12,9 @@ Pass. All five reference projects landed in their expected bands.
 Medium-sized, high-churn, cloud-native environment. SIEM, CNAPP, and EDR already owned. Three-year tooling refresh cycle.
 
 ## Summary
-- Tasks scored: 5
-- By band: Seawall 1 · Durable 2 · Weak 0 · Sandcastle 2
-- Flagged: compliance-required 0 · program-work 0 · disagreement 1 · insufficient-detail 0
+- Tasks scored: 6
+- By band: Seawall 1 · Durable 2 · Weak 0 · Sandcastle 3
+- Flagged: compliance-required 0 · program-work 0 · deferral 1 · disagreement 1 · insufficient-detail 0
 - Review first: EX-02 (disagreement), EX-01 (top of the ranking)
 
 ## Seawall
@@ -40,8 +40,11 @@ Medium-sized, high-churn, cloud-native environment. SIEM, CNAPP, and EDR already
 
 | Rank | ID | Task | Workstream | R | D | E | Db | C | DRR | Spread | Flags |
 |------|----|------|------------|---|---|---|----|---|-----|--------|-------|
-| 4 | EX-04 | East-west visibility platform, detection only | Detection | 1.0 | 2.0 | 4.0 | 4.0 | 5.0 | **0.06** | 1 | new-tool-no-hardening-gap |
-| 5 | EX-05 | One SIEM correlation rule, one technique | Detection | 1.0 | 1.0 | 2.0 | 4.0 | 2.0 | **0.05** | 0 | unlinked-detection |
+| 4 | EX-06 | Defer a patch on an internal application and accept the risk | Vulnerability management | 1.0 | 1.0 | 1.0 | 3.0 | 1.0 | **0.08** | 1 | deferral, rescore-trigger |
+| 5 | EX-04 | East-west visibility platform, detection only | Detection | 1.0 | 2.0 | 4.0 | 4.0 | 5.0 | **0.06** | 1 | new-tool-no-hardening-gap |
+| 6 | EX-05 | One SIEM correlation rule, one technique | Detection | 1.0 | 1.0 | 2.0 | 4.0 | 2.0 | **0.05** | 0 | unlinked-detection |
+
+**EX-06:** A decision not to act. Deferring the patch removes no reach (Reduction 1) and nothing holds while the exposure stays open (Durability 1). Almost no effort, but it leaves monitoring and an exception review behind (Debt 3). Owner and review date recorded. *Rescore trigger:* a public exploit for the deferred issue, or the review date passing.
 
 **EX-04:** Adds visibility but removes no reach (Reduction 1). Behavioral detection without a validated baseline (Durability 2), plus a new platform subscription (Cost 5). No specific hardening problem named.
 
@@ -50,6 +53,7 @@ Medium-sized, high-churn, cloud-native environment. SIEM, CNAPP, and EDR already
 ## Key takeaways
 - The identity change tops the plan: it removes real reach, it lasts, and it is cheap to keep.
 - Segmentation is durable despite the effort, because it removes the most reach of anything here. Resolve the Debt disagreement before scheduling.
+- The deferral lands in the same band as the detection-only items. Not acting is a decision too, and it stays on the ranking with an owner and a review date.
 - The two detection-only items land in the same band at the bottom. Their scores differ by 0.01, which is not a meaningful difference.
 - Before starting new detection work, link it to an automated response or a preventive fix.
 
