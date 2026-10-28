@@ -35,13 +35,13 @@ Scores are ordinal. Read them in bands, and do not treat small decimal differenc
 
 | File | What it is |
 |---|---|
-| `.claude/agents/drr-scorer.md` | The scoring agent, as a Claude Code subagent. Also readable on its own as the full rubric. |
-| `drr-score-sheet.xlsx` | A spreadsheet that does the math, with a calibration tab. No agent needed. |
-| `examples/sample-report.md` | What the agent's output looks like, using the five reference projects. |
+| [`drr-scorer.md`](drr-scorer.md) | The scoring agent, as a Claude Code subagent. Also readable on its own as the full rubric. |
+| [`drr-score-sheet.xlsx`](drr-score-sheet.xlsx) | A spreadsheet that does the math, with a calibration tab. No agent needed. |
+| [`sample-report.md`](sample-report.md) | What the agent's output looks like, using the five reference projects. |
 
 ## Quick start with Claude Code
 
-1. Copy `.claude/agents/drr-scorer.md` into your project's `.claude/agents/` folder, or into `~/.claude/agents/` to use it in every project.
+1. Download [`drr-scorer.md`](drr-scorer.md) and put it in your project's `.claude/agents/` folder, or in `~/.claude/agents/` to use it in every project.
 2. Open the file and fill in the **Org profile** section. Use categories, not secrets: no hostnames, account IDs, or names.
 3. Ask Claude Code something like: *"Use the drr-scorer agent to score our Q3 security plan."* The agent reads whatever your session can reach, such as an issue tracker or wiki connected over MCP, or a list you paste in.
 4. Review the report. It is marked **draft** until security architecture signs off on Reduction and Durability.
