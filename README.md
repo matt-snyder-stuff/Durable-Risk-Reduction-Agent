@@ -31,6 +31,8 @@ DRR = (Reduction × Durability) ÷ (Effort + H × (Debt + Cost))
 
 Scores are ordinal. Read them in bands, and do not treat small decimal differences as meaningful.
 
+**Score the decision not to act, too.** Deferring a patch or accepting a risk goes on the same ranking. It removes no reach and leaves upkeep behind, so a typical deferral scores about 0.08, a sandcastle. That does not make it wrong, but it should be a visible decision with an owner and a review date.
+
 ## What is in this repo
 
 | File | What it is |
